@@ -1,73 +1,61 @@
-# React + TypeScript + Vite
+# 雀魂成績マネージャー (Mahjong Score Manager)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+雀魂（じゃんたま）などのオンライン麻雀における対局成績を記録・分析・管理するためのクライアントサイドWebアプリケーションです。
+段位ポイントの増減計算や、直近の成績に基づくトレンド分析、長期的なパフォーマンスの可視化など、打ち手のレベルアップを支援する高度な機能を備えています。
 
-Currently, two official plugins are available:
+## ✨ 主な機能
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **直感的な成績記録**
+  - 対局ごとの順位、素点、部屋（金の間、玉の間、王座の間など）、ルール（東風・半荘）を素早く入力可能。
+  - 入力ミスを防ぐためのプレースホルダーやバリデーション機能。
+- **段位ポイント（Pt）の自動計算**
+  - 順位や部屋、ルールに応じた段位ポイントの増減を自動計算。
+  - 昇段・降段ロジックをサポートし、現在のPtや次の段位までの進捗をトラッキング。
+- **高度な分析ダッシュボード**
+  - **順位分布サマリー**: 「1-2-3-1」のような形式で、指定期間の順位分布をひと目で把握。
+  - **トレンドと自動考察**: 直近の対局データ（50戦・100戦などのスパン）から、プレイの傾向や改善点をカードUIでフィードバック。
+  - **グラフによる可視化**: 成績の推移を日別・週別・月別、またはルール別（東風/半荘/総合）でわかりやすくチャート表示。
+- **洗練されたUI/UX (グラスモーフィズム)**
+  - 視認性が高くモダンな「グラスモーフィズム（Glassmorphism）」デザインを採用し、美しくプレミアムな操作感を提供。
+  - スマートフォンでの利用に最適化されたレスポンシブレイアウトと、モバイル向けのボトムナビゲーションバーを実装。
+- **セキュアなローカル保存**
+  - アカウント登録やサーバー通信は不要。すべてのデータはブラウザのローカルデータベース（IndexedDB）に安全かつ高速に保存されます。
 
-## React Compiler
+## 🛠 使用技術
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Core**: React 19, TypeScript, Vite
+- **Styling**: Tailwind CSS
+- **Data Visualization**: Recharts
+- **Database**: Dexie.js (IndexedDB wrapper)
+- **Icons**: Lucide React
+- **Deployment**: GitHub Pages (自動デプロイ対応)
 
-## Expanding the ESLint configuration
+## 🚀 ローカルでの実行方法
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+リポジトリをクローンし、以下のコマンドを実行することでローカル環境で起動できます。
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```bash
+# パッケージのインストール
+npm install
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 開発用サーバーの起動
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+起動後、ブラウザで `http://localhost:5173` にアクセスしてください。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📦 ビルド
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# プロダクション用ビルドの作成
+npm run build
 ```
+
+## 🌐 デプロイについて
+
+本プロジェクトは GitHub Pages へのホスティングに対応しています。
+Vite の `base` パス設定と `.nojekyll` ファイルを活用し、自動ルーティングやアセットの読み込みが正常に行われるよう最適化されています。
+
+## 📄 ライセンス
+
+[MIT License](LICENSE)
