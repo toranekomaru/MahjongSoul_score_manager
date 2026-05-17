@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import type { GameRecord } from '../types';
-import { Flame, AlertTriangle, TrendingUp, TrendingDown, Info } from 'lucide-react';
+import { Flame, AlertTriangle } from 'lucide-react';
 
 type CommentType = 'good' | 'bad' | 'neutral';
 
