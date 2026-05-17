@@ -25,7 +25,7 @@ export function RatingGraph({ records, settings, height }: Props) {
   ];
 
   const containerStyle = height ? { height } : undefined;
-  const containerCls = `bg-surface border border-border rounded-2xl shadow-lg flex flex-col${height ? '' : ' h-full'}`;
+  const containerCls = `bg-surface border border-border rounded-2xl shadow-lg flex flex-col${height ? '' : ' h-full min-h-[300px]'}`;
 
   if (records.length === 0) {
     return (

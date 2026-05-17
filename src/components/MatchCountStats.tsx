@@ -142,7 +142,7 @@ export function MatchCountStats({ records }: Props) {
             データがありません
           </div>
         ) : (
-          <table className="w-full text-sm text-left text-textMain">
+          <table className="w-full min-w-[650px] text-sm text-left text-textMain">
             <thead className="text-xs text-textMuted uppercase bg-background border-b border-border sticky top-0">
               <tr>
                 <th className="py-3 px-5">区切り</th>

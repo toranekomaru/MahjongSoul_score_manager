@@ -60,17 +60,17 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
   };
 
   const inputCls =
-    'bg-background border border-border rounded-lg px-3 py-2 text-textMain text-sm focus:ring-2 focus:ring-primary focus:outline-none transition-all';
+    'bg-background border border-border rounded-lg px-3 py-2 text-textMain text-sm focus:ring-2 focus:ring-primary focus:outline-none transition-all w-full';
 
   return (
-    <div className="bg-surface border border-border rounded-2xl px-5 py-4 shadow-lg">
+    <div className="bg-surface border border-border rounded-2xl px-4 py-4 md:px-5 md:py-4 shadow-lg">
       <h2 className="text-sm font-bold text-primary mb-3">対局結果を記録</h2>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-wrap items-end gap-3"
+        className="grid grid-cols-2 md:flex md:flex-wrap items-end gap-3 gap-y-4"
       >
         {/* 日付 */}
-        <div className="flex flex-col gap-1 min-w-[130px]">
+        <div className="flex flex-col gap-1 col-span-1 min-w-0 md:min-w-[130px] w-full">
           <label className="text-xs text-textMuted font-medium">日付</label>
           <input
             type="date"
@@ -85,7 +85,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         </div>
 
         {/* 時刻 */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 col-span-1 w-full">
           <label className="text-xs text-textMuted font-medium">時刻</label>
           <input
             type="time"
@@ -94,14 +94,14 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
               setTime(e.target.value);
               setIsTimeEdited(true);
             }}
-            className={`${inputCls} cursor-pointer w-28`}
+            className={`${inputCls} cursor-pointer md:w-28`}
           />
         </div>
 
         {/* 部屋 / ルール */}
-        <div className="flex flex-col gap-1 min-w-[110px]">
+        <div className="flex flex-col gap-1 col-span-2 md:min-w-[110px] w-full">
           <label className="text-xs text-textMuted font-medium">部屋 / ルール</label>
-          <div className="flex gap-1">
+          <div className="flex gap-1 w-full">
             <select
               value={room}
               onChange={(e) => setRoom(e.target.value as Room)}
@@ -134,9 +134,9 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         </div>
 
         {/* 順位ボタン */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 col-span-2 w-full">
           <label className="text-xs text-textMuted font-medium">順位</label>
-          <div className="flex gap-1">
+          <div className="flex gap-1 w-full">
             {([1, 2, 3, 4] as Rank[]).map((r) => {
               const colors = {
                 1: 'bg-amber-400/20 text-amber-700 border-amber-400/50',
@@ -150,7 +150,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
                   key={r}
                   type="button"
                   onClick={() => setRank(r)}
-                  className={`w-12 py-2 rounded-lg font-bold text-sm transition-all border backdrop-blur-sm ${
+                  className={`flex-1 md:w-12 py-2 rounded-lg font-bold text-sm transition-all border backdrop-blur-sm ${
                     active
                       ? `${colors[r]} shadow-md scale-105`
                       : 'bg-background/50 border-border text-textMuted hover:border-primary/50'
@@ -164,10 +164,10 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         </div>
 
         {/* 最終点数 */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 col-span-1 w-full">
           <label className="text-xs text-textMuted font-medium">最終点数</label>
-          <div className="flex items-center gap-1">
-            <div className="relative">
+          <div className="flex items-center gap-1 w-full">
+            <div className="relative flex-1">
               <input
                 type="text"
                 inputMode="numeric"
@@ -180,20 +180,20 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
                 }}
                 onFocus={(e) => e.target.select()}
                 required
-                className={`${inputCls} w-24 pr-7 text-right font-bold text-base tracking-widest`}
+                className={`${inputCls} pr-7 text-right font-bold text-base tracking-widest md:w-24`}
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-textMuted font-bold text-base pointer-events-none">
                 00
               </span>
             </div>
-            <span className="text-xs text-textMuted">点</span>
+            <span className="text-xs text-textMuted shrink-0">点</span>
           </div>
         </div>
 
         {/* 追加ボタン */}
         <button
           type="submit"
-          className="flex items-center gap-2 bg-gradient-to-r from-primary to-secondary text-white font-bold px-5 py-2 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all text-sm whitespace-nowrap"
+          className="col-span-1 flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-secondary text-white font-bold h-[38px] md:h-[38px] px-5 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all text-sm whitespace-nowrap w-full"
         >
           <PlusCircle size={16} />
           追加する

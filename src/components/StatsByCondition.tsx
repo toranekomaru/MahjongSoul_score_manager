@@ -49,7 +49,7 @@ export function StatsByCondition({ records, height }: Props) {
         <h2 className="text-sm font-bold text-primary">条件別成績</h2>
       </div>
       <div className="flex-1 min-h-0 overflow-auto">
-        <table className="w-full text-xs text-left text-textMain">
+        <table className="w-full min-w-[500px] text-xs text-left text-textMain">
           <thead className="text-[11px] text-textMuted uppercase bg-background border-b border-border sticky top-0">
             <tr>
               <th className="py-2 px-4">部屋・ルール</th>
