@@ -67,10 +67,10 @@ export function PeriodStats({ records }: Props) {
   return (
     <div className="bg-surface border border-border rounded-2xl shadow-lg flex flex-col overflow-hidden h-full">
       {/* ヘッダー・操作パネル */}
-      <div className="px-5 py-4 border-b border-border shrink-0 flex flex-wrap items-center justify-between gap-4">
+      <div className="px-5 py-4 border-b border-border shrink-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <h2 className="text-base font-bold text-primary">期間別成績</h2>
         
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-2 md:gap-4 w-full md:w-auto">
           {/* 期間選択 */}
           <div className="flex bg-background border border-border rounded-lg p-1">
             {([

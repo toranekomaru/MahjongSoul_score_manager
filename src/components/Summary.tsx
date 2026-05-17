@@ -18,21 +18,21 @@ export function Summary({ records }: { records: GameRecord[] }) {
   ];
 
   return (
-    <div className="bg-surface border border-border rounded-2xl px-5 py-4 shadow-lg">
+    <div className="bg-surface border border-border rounded-2xl px-4 py-4 md:px-5 md:py-4 shadow-lg">
       <SummaryComments records={records} />
-      <div className="flex flex-wrap items-center gap-6">
+      <div className="grid grid-cols-2 md:flex md:flex-wrap md:items-center gap-4 md:gap-6">
         {stats.map((s) => (
-          <div key={s.label} className="flex flex-col">
-            <span className="text-xs text-textMuted font-medium">{s.label}</span>
-            <span className={`text-2xl font-black ${s.color}`}>
+          <div key={s.label} className="flex flex-col col-span-1">
+            <span className="text-[10px] md:text-xs text-textMuted font-medium">{s.label}</span>
+            <span className={`text-xl md:text-2xl font-black ${s.color}`}>
               {s.value}
-              {s.unit && <span className="text-sm font-normal text-textMuted ml-1">{s.unit}</span>}
+              {s.unit && <span className="text-xs md:text-sm font-normal text-textMuted ml-0.5 md:ml-1">{s.unit}</span>}
             </span>
           </div>
         ))}
 
         {/* 順位率バー */}
-        <div className="flex-1 min-w-[180px]">
+        <div className="col-span-2 md:flex-1 min-w-0 md:min-w-[180px]">
           <span className="text-xs text-textMuted font-medium block mb-1">順位率</span>
           <div className="flex h-5 rounded-full overflow-hidden w-full bg-border">
             <div style={{ width: `${rankRates[0]}%` }} className="bg-primary" title={`1位: ${rankRates[0].toFixed(1)}%`} />

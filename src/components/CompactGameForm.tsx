@@ -70,7 +70,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         className="grid grid-cols-2 md:flex md:flex-wrap items-end gap-3 gap-y-4"
       >
         {/* 日付 */}
-        <div className="flex flex-col gap-1 col-span-1 min-w-0 md:min-w-[130px] w-full">
+        <div className="flex flex-col gap-1 col-span-2 md:min-w-[130px] md:flex-1 w-full">
           <label className="text-xs text-textMuted font-medium">日付</label>
           <input
             type="date"
@@ -85,7 +85,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         </div>
 
         {/* 時刻 */}
-        <div className="flex flex-col gap-1 col-span-1 w-full">
+        <div className="flex flex-col gap-1 col-span-2 md:w-28 w-full">
           <label className="text-xs text-textMuted font-medium">時刻</label>
           <input
             type="time"
@@ -94,7 +94,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
               setTime(e.target.value);
               setIsTimeEdited(true);
             }}
-            className={`${inputCls} cursor-pointer md:w-28`}
+            className={`${inputCls} cursor-pointer`}
           />
         </div>
 
@@ -164,7 +164,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         </div>
 
         {/* 最終点数 */}
-        <div className="flex flex-col gap-1 col-span-1 w-full">
+        <div className="flex flex-col gap-1 col-span-2 md:w-32 w-full">
           <label className="text-xs text-textMuted font-medium">最終点数</label>
           <div className="flex items-center gap-1 w-full">
             <div className="relative flex-1">
@@ -193,7 +193,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         {/* 追加ボタン */}
         <button
           type="submit"
-          className="col-span-1 flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-secondary text-white font-bold h-[38px] md:h-[38px] px-5 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all text-sm whitespace-nowrap w-full"
+          className="col-span-2 flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-secondary text-white font-bold h-10 md:h-[38px] px-5 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all text-sm whitespace-nowrap w-full md:w-auto"
         >
           <PlusCircle size={16} />
           追加する

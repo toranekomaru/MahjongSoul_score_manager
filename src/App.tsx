@@ -34,10 +34,10 @@ function App() {
   }
 
   return (
-    // モバイル時は画面全体のスクロールを許可し、下部ナビゲーション分の余白（pb-20）を確保。PC時は従来どおり固定。
-    <div className="h-screen md:h-screen flex flex-col bg-background text-textMain overflow-y-auto md:overflow-hidden pb-16 md:pb-0">
+    // 画面全体を固定し、ヘッダーとボトムナビゲーションを常に定位置に配置。
+    <div className="h-screen flex flex-col bg-background text-textMain overflow-hidden">
       {/* ヘッダー */}
-      <header className="bg-surface border-b border-border shrink-0 z-50 sticky top-0 md:relative">
+      <header className="bg-surface border-b border-border shrink-0 z-50">
         <div className="max-w-[1400px] mx-auto px-4 md:px-6 h-14 flex items-center justify-between gap-4">
           {/* ロゴ */}
           <span className="text-lg md:text-xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent whitespace-nowrap shrink-0">
@@ -80,9 +80,9 @@ function App() {
         </div>
       </header>
 
-      {/* コンテンツエリア */}
-      <main className="flex-1 min-h-0 overflow-y-auto md:overflow-hidden">
-        <div className="h-auto md:h-full max-w-[1400px] mx-auto px-4 md:px-6 py-3 md:py-4 flex flex-col gap-4">
+      {/* コンテンツエリア（モバイル時は下部ナビの高さ分 pb-20 を確保してスクロール可能に） */}
+      <main className="flex-1 overflow-y-auto pb-20 md:pb-0">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-6 py-3 md:py-4 flex flex-col gap-4">
           {/* ━━ ダッシュボード ━━ */}
           {activeTab === 'dashboard' && (
             <div className="flex flex-col gap-4 h-full">
