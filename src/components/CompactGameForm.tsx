@@ -63,14 +63,14 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
     'bg-background border border-border rounded-lg px-3 py-2 text-textMain text-sm focus:ring-2 focus:ring-primary focus:outline-none transition-all w-full';
 
   return (
-    <div className="bg-surface border border-border rounded-2xl px-4 py-4 md:px-5 md:py-4 shadow-lg">
+    <div className="bg-surface border border-border rounded-2xl px-4 py-4 md:px-5 md:py-4 shadow-lg overflow-hidden">
       <h2 className="text-sm font-bold text-primary mb-3">対局結果を記録</h2>
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-2 md:flex md:flex-wrap items-end gap-3 gap-y-4"
+        className="grid grid-cols-2 md:flex md:flex-wrap items-end gap-3 gap-y-4 w-full min-w-0"
       >
         {/* 日付 */}
-        <div className="flex flex-col gap-1 col-span-2 md:min-w-[130px] md:flex-1 w-full">
+        <div className="flex flex-col gap-1 col-span-2 md:min-w-[130px] md:flex-1 w-full min-w-0">
           <label className="text-xs text-textMuted font-medium">日付</label>
           <input
             type="date"
@@ -85,7 +85,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         </div>
 
         {/* 時刻 */}
-        <div className="flex flex-col gap-1 col-span-2 md:w-28 w-full">
+        <div className="flex flex-col gap-1 col-span-2 md:w-28 w-full min-w-0">
           <label className="text-xs text-textMuted font-medium">時刻</label>
           <input
             type="time"
@@ -99,14 +99,14 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         </div>
 
         {/* 部屋 / ルール */}
-        <div className="flex flex-col gap-1 col-span-2 md:min-w-[110px] w-full">
+        <div className="flex flex-col gap-1 col-span-2 md:min-w-[110px] w-full min-w-0">
           <label className="text-xs text-textMuted font-medium">部屋 / ルール</label>
-          <div className="flex gap-1 w-full">
+          <div className="flex gap-1 w-full min-w-0">
             <select
               value={room}
               onChange={(e) => setRoom(e.target.value as Room)}
               required
-              className={`${inputCls} cursor-pointer flex-1 font-bold backdrop-blur-sm ${
+              className={`${inputCls} cursor-pointer flex-1 min-w-0 font-bold backdrop-blur-sm ${
                 room === '玉の間' ? 'bg-emerald-600/10 text-emerald-600 border-emerald-600/40' : 
                 room === '王座の間' ? 'bg-amber-500/10 text-amber-600 border-amber-500/40' : 
                 'bg-background/50 text-textMuted'
@@ -120,7 +120,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
               value={rule}
               onChange={(e) => setRule(e.target.value as Rule)}
               required
-              className={`${inputCls} cursor-pointer flex-1 font-bold backdrop-blur-sm ${
+              className={`${inputCls} cursor-pointer flex-1 min-w-0 font-bold backdrop-blur-sm ${
                 rule === '東風' ? 'bg-orange-500/10 text-orange-600 border-orange-500/40' : 
                 rule === '東南' ? 'bg-blue-600/10 text-blue-600 border-blue-600/40' : 
                 'bg-background/50 text-textMuted'
@@ -134,7 +134,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         </div>
 
         {/* 順位ボタン */}
-        <div className="flex flex-col gap-1 col-span-2 w-full">
+        <div className="flex flex-col gap-1 col-span-2 w-full min-w-0">
           <label className="text-xs text-textMuted font-medium">順位</label>
           <div className="flex gap-1 w-full">
             {([1, 2, 3, 4] as Rank[]).map((r) => {
@@ -150,7 +150,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
                   key={r}
                   type="button"
                   onClick={() => setRank(r)}
-                  className={`flex-1 md:w-12 py-2 rounded-lg font-bold text-sm transition-all border backdrop-blur-sm ${
+                  className={`flex-1 md:w-12 py-2 rounded-lg font-bold text-sm transition-all border backdrop-blur-sm min-w-0 ${
                     active
                       ? `${colors[r]} shadow-md scale-105`
                       : 'bg-background/50 border-border text-textMuted hover:border-primary/50'
@@ -164,10 +164,10 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         </div>
 
         {/* 最終点数 */}
-        <div className="flex flex-col gap-1 col-span-2 md:w-32 w-full">
+        <div className="flex flex-col gap-1 col-span-2 md:w-32 w-full min-w-0">
           <label className="text-xs text-textMuted font-medium">最終点数</label>
-          <div className="flex items-center gap-1 w-full">
-            <div className="relative flex-1">
+          <div className="flex items-center gap-1 w-full min-w-0">
+            <div className="relative flex-1 min-w-0">
               <input
                 type="text"
                 inputMode="numeric"
@@ -193,7 +193,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         {/* 追加ボタン */}
         <button
           type="submit"
-          className="col-span-2 flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-secondary text-white font-bold h-10 md:h-[38px] px-5 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all text-sm whitespace-nowrap w-full md:w-auto"
+          className="col-span-2 flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-secondary text-white font-bold h-10 md:h-[38px] px-5 rounded-lg shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all text-sm whitespace-nowrap w-full md:w-auto min-w-0"
         >
           <PlusCircle size={16} />
           追加する
