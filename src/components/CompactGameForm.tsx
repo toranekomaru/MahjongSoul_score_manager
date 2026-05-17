@@ -69,33 +69,30 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
         onSubmit={handleSubmit}
         className="grid grid-cols-2 md:flex md:flex-wrap items-end gap-3 gap-y-4 w-full min-w-0"
       >
-        {/* 日付 */}
-        <div className="flex flex-col gap-1 col-span-2 md:min-w-[130px] md:flex-1 w-full min-w-0">
-          <label className="text-xs text-textMuted font-medium">日付</label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => {
-              setDate(e.target.value);
-              setIsTimeEdited(true);
-            }}
-            required
-            className={`${inputCls} cursor-pointer`}
-          />
-        </div>
-
-        {/* 時刻 */}
-        <div className="flex flex-col gap-1 col-span-2 md:w-28 w-full min-w-0">
-          <label className="text-xs text-textMuted font-medium">時刻</label>
-          <input
-            type="time"
-            value={time}
-            onChange={(e) => {
-              setTime(e.target.value);
-              setIsTimeEdited(true);
-            }}
-            className={`${inputCls} cursor-pointer`}
-          />
+        {/* 日時 */}
+        <div className="flex flex-col gap-1 col-span-2 md:min-w-[260px] md:flex-1 w-full min-w-0">
+          <label className="text-xs text-textMuted font-medium">日時</label>
+          <div className="flex gap-1 w-full min-w-0">
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => {
+                setDate(e.target.value);
+                setIsTimeEdited(true);
+              }}
+              required
+              className={`${inputCls} cursor-pointer flex-1 min-w-0`}
+            />
+            <input
+              type="time"
+              value={time}
+              onChange={(e) => {
+                setTime(e.target.value);
+                setIsTimeEdited(true);
+              }}
+              className={`${inputCls} cursor-pointer flex-1 min-w-0`}
+            />
+          </div>
         </div>
 
         {/* 部屋 / ルール */}
@@ -180,7 +177,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
                 }}
                 onFocus={(e) => e.target.select()}
                 required
-                className={`${inputCls} pr-7 text-right font-bold text-base tracking-widest md:w-24`}
+                className={`${inputCls} pr-10 text-right font-bold text-base tracking-widest md:w-24`}
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-textMuted font-bold text-base pointer-events-none">
                 00
