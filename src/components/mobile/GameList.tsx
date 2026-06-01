@@ -1,4 +1,4 @@
-import type { GameRecord } from '../types';
+import type { GameRecord } from '../../types';
 import { Trash2 } from 'lucide-react';
 
 type Props = {
@@ -22,7 +22,7 @@ export function GameList({ records, onDelete }: Props) {
       {/* モバイル向けカード一覧 */}
       <div className="md:hidden flex flex-col divide-y divide-border">
         {displayRecords.map((r) => {
-          const rankColors = {
+          const rankColors: Record<number, string> = {
             1: 'bg-primary/10 text-primary border-primary/20',
             2: 'bg-secondary/10 text-secondary border-secondary/20',
             3: 'bg-textMuted/15 text-textMuted border-textMuted/20',

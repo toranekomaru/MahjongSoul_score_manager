@@ -1,93 +1,113 @@
 import { useState, useMemo } from 'react';
-import type { GameRecord, Rule } from '../types';
+import type { GameRecord, Rule } from '../../types';
 
 type Props = {
   records: GameRecord[];
 };
 
-type PeriodType = 'day' | 'week' | 'month';
 type RuleFilter = 'all' | Rule;
+type OrderBase = 'recent' | 'oldest';
 
-function getWeekString(dateStr: string) {
-  const d = new Date(dateStr);
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-  const monday = new Date(d.setDate(diff));
-  return monday.toISOString().slice(0, 10) + 'の週';
-}
-
-export function PeriodStats({ records }: Props) {
-  const [periodType, setPeriodType] = useState<PeriodType>('day');
+export function MatchCountStats({ records }: Props) {
   const [ruleFilter, setRuleFilter] = useState<RuleFilter>('all');
+  const [chunkSize, setChunkSize] = useState<number>(10);
+  const [orderBase, setOrderBase] = useState<OrderBase>('recent');
 
   const stats = useMemo(() => {
     // 1. ルールでフィルタリング
     const filteredRecords = records.filter(r => ruleFilter === 'all' || r.rule === ruleFilter);
 
-    // 2. 期間ごとにグループ化
-    const grouped = filteredRecords.reduce((acc, r) => {
-      let key = r.date;
-      if (periodType === 'month') {
-        key = r.date.slice(0, 7); // YYYY-MM
-      } else if (periodType === 'week') {
-        key = getWeekString(r.date);
+    if (filteredRecords.length === 0) return [];
+
+    const results = [];
+    
+    // 直近ベースなら最新の対局から遡るため逆順、古い順ベースならそのまま
+    const targetRecords = orderBase === 'recent' 
+      ? [...filteredRecords].reverse() 
+      : filteredRecords;
+    
+    for (let i = 0; i < targetRecords.length; i += chunkSize) {
+      const chunk = targetRecords.slice(i, i + chunkSize);
+      const startMatch = i + 1;
+      const endMatch = i + chunk.length;
+      const count = chunk.length;
+
+      let sumRank = 0;
+      let ptChange = 0;
+      let firsts = 0;
+      let seconds = 0;
+      let thirds = 0;
+      let fourths = 0;
+
+      for (const r of chunk) {
+        sumRank += r.rank;
+        ptChange += r.pointChanged;
+        if (r.rank === 1) firsts++;
+        else if (r.rank === 2) seconds++;
+        else if (r.rank === 3) thirds++;
+        else if (r.rank === 4) fourths++;
       }
 
-      if (!acc[key]) {
-        acc[key] = { count: 0, sumRank: 0, firsts: 0, seconds: 0, thirds: 0, fourths: 0, ptChange: 0 };
-      }
-      acc[key].count++;
-      acc[key].sumRank += r.rank;
-      acc[key].ptChange += r.pointChanged;
-      if (r.rank === 1) acc[key].firsts++;
-      else if (r.rank === 2) acc[key].seconds++;
-      else if (r.rank === 3) acc[key].thirds++;
-      else if (r.rank === 4) acc[key].fourths++;
-      return acc;
-    }, {} as Record<string, { count: number; sumRank: number; firsts: number; seconds: number; thirds: number; fourths: number; ptChange: number }>);
+      const avgPtVal = ptChange / count;
 
-    // 3. 配列に変換して並び替え（新しい期間が上）
-    return Object.entries(grouped)
-      .map(([key, val]) => {
-        const avgPtVal = val.ptChange / val.count;
-        return {
-          key,
-          count: val.count,
-          avgRank: (val.sumRank / val.count).toFixed(2),
-          rankBreakdown: `${val.firsts}-${val.seconds}-${val.thirds}-${val.fourths}`,
-          firstRate: ((val.firsts / val.count) * 100).toFixed(1) + '%',
-          lastRate: ((val.fourths / val.count) * 100).toFixed(1) + '%',
-          totalPt: val.ptChange > 0 ? '+' + val.ptChange : String(val.ptChange),
-          avgPt: avgPtVal > 0 ? '+' + avgPtVal.toFixed(1) : avgPtVal.toFixed(1),
-        };
-      })
-      .sort((a, b) => b.key.localeCompare(a.key)); // 降順
-  }, [records, periodType, ruleFilter]);
+      results.push({
+        interval: orderBase === 'recent' ? `直近 ${startMatch}～${endMatch}戦` : `${startMatch}～${endMatch}戦`,
+        count,
+        avgRank: (sumRank / count).toFixed(2),
+        rankBreakdown: `${firsts}-${seconds}-${thirds}-${fourths}`,
+        firstRate: ((firsts / count) * 100).toFixed(1) + '%',
+        lastRate: ((fourths / count) * 100).toFixed(1) + '%',
+        totalPt: ptChange > 0 ? '+' + ptChange : String(ptChange),
+        avgPt: avgPtVal > 0 ? '+' + avgPtVal.toFixed(1) : avgPtVal.toFixed(1),
+      });
+    }
+    // 古い順ベースの場合、最新のチャンクが一番上（またはその逆）にするかはお好みですが、
+    // ここでは「表の上から順に見ていく」時に自然な形になるよう、
+    // 直近ベースの場合は作成順そのまま（最新が一番上）
+    // 古い順ベースの場合は新しいチャンクが上に来るようリバースします。
+    return orderBase === 'recent' ? results : results.reverse();
+  }, [records, ruleFilter, chunkSize, orderBase]);
 
   return (
     <div className="bg-surface border border-border rounded-2xl shadow-lg flex flex-col overflow-hidden h-full">
       {/* ヘッダー・操作パネル */}
       <div className="px-5 py-4 border-b border-border shrink-0 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <h2 className="text-base font-bold text-primary">期間別成績</h2>
+        <h2 className="text-base font-bold text-primary">対戦数別集計</h2>
         
         <div className="flex flex-wrap gap-2 md:gap-4 w-full md:w-auto">
-          {/* 期間選択 */}
+          {/* 集計ベース選択 */}
           <div className="flex bg-background border border-border rounded-lg p-1">
             {([
-              { value: 'day', label: '日別' },
-              { value: 'week', label: '週別' },
-              { value: 'month', label: '月別' }
-            ] as const).map(p => (
+              { value: 'recent', label: '直近ベース' },
+              { value: 'oldest', label: '古い順ベース' }
+            ] as const).map(base => (
               <button
-                key={p.value}
-                onClick={() => setPeriodType(p.value)}
+                key={base.value}
+                onClick={() => setOrderBase(base.value)}
                 className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                  periodType === p.value
+                  orderBase === base.value
+                    ? 'bg-amber-600 text-white shadow'
+                    : 'text-textMuted hover:text-textMain'
+                }`}
+              >
+                {base.label}
+              </button>
+            ))}
+          </div>
+
+          {/* 区切り選択 */}
+          <div className="flex bg-background border border-border rounded-lg p-1">
+            {([10, 20, 50, 100] as const).map(size => (
+              <button
+                key={size}
+                onClick={() => setChunkSize(size)}
+                className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                  chunkSize === size
                     ? 'bg-primary text-white shadow'
                     : 'text-textMuted hover:text-textMain'
                 }`}
               >
-                {p.label}
+                {size}戦
               </button>
             ))}
           </div>
@@ -125,7 +145,7 @@ export function PeriodStats({ records }: Props) {
           <table className="w-full min-w-[650px] text-sm text-left text-textMain">
             <thead className="text-xs text-textMuted uppercase bg-background border-b border-border sticky top-0">
               <tr>
-                <th className="py-3 px-5">期間</th>
+                <th className="py-3 px-5">区切り</th>
                 <th className="py-3 px-4">対局数</th>
                 <th className="py-3 px-4">平均順位</th>
                 <th className="py-3 px-4">順位内訳</th>
@@ -137,8 +157,8 @@ export function PeriodStats({ records }: Props) {
             </thead>
             <tbody>
               {stats.map((s) => (
-                <tr key={s.key} className="border-b border-border hover:bg-surfaceHover transition-colors">
-                  <td className="py-3 px-5 font-mono font-bold">{s.key}</td>
+                <tr key={s.interval} className="border-b border-border hover:bg-surfaceHover transition-colors">
+                  <td className="py-3 px-5 font-bold text-secondary">{s.interval}</td>
                   <td className="py-3 px-4">{s.count}</td>
                   <td className="py-3 px-4">{s.avgRank}</td>
                   <td className="py-3 px-4 tracking-widest">{s.rankBreakdown}</td>

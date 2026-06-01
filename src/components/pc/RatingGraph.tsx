@@ -1,6 +1,6 @@
-import type { GameRecord, RankTier, SettingsInfo } from '../types';
+import type { GameRecord, RankTier, SettingsInfo } from '../../types';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { rankConfig } from '../lib/mahjongLogic';
+import { rankConfig } from '../../lib/mahjongLogic';
 
 type Props = {
   records: GameRecord[];
@@ -25,7 +25,7 @@ export function RatingGraph({ records, settings, height }: Props) {
   ];
 
   const containerStyle = height ? { height } : undefined;
-  const containerCls = `bg-surface border border-border rounded-2xl shadow-lg flex flex-col${height ? '' : ' h-full min-h-[300px]'}`;
+  const containerCls = `bg-surface border border-border rounded-2xl shadow-lg flex flex-col${height ? '' : ' h-full'}`;
 
   if (records.length === 0) {
     return (

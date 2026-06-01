@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { SettingsInfo, RankTier } from '../types';
+import type { SettingsInfo, RankTier } from '../../types';
 import { Save } from 'lucide-react';
 
 type Props = {

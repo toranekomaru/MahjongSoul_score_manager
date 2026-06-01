@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { GameRecord, Rank, Rule, Room, RankTier } from '../types';
+import type { GameRecord, Rank, Rule, Room, RankTier } from '../../types';
 import { PlusCircle } from 'lucide-react';
 
 type Props = {
@@ -135,7 +135,7 @@ export function CompactGameForm({ onAdd, currentRank }: Props) {
           <label className="text-xs text-textMuted font-medium">順位</label>
           <div className="flex gap-1 w-full">
             {([1, 2, 3, 4] as Rank[]).map((r) => {
-              const colors = {
+              const colors: Record<number, string> = {
                 1: 'bg-amber-400/20 text-amber-700 border-amber-400/50',
                 2: 'bg-slate-400/20 text-slate-700 border-slate-400/50',
                 3: 'bg-orange-400/20 text-orange-700 border-orange-400/50',

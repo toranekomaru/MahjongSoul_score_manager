@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { GameRecord, Rank, Rule, Room, RankTier } from '../types';
+import type { GameRecord, Rank, Rule, Room, RankTier } from '../../types';
 import { PlusCircle } from 'lucide-react';
 
 type Props = {

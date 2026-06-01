@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { GameRecord } from '../types';
+import type { GameRecord } from '../../types';
 
 type Props = {
   records: GameRecord[];
@@ -24,7 +24,7 @@ export function StatsByCondition({ records, height }: Props) {
       {} as Record<string, { count: number; sumRank: number; firsts: number; fourths: number; ptChange: number }>,
     );
 
-    return Object.entries(grouped).map(([key, val]) => {
+    return Object.entries(grouped).map(([key, val]: [string, any]) => {
       const avgPtVal = val.ptChange / val.count;
       return {
         key,
